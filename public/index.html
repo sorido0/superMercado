@@ -137,46 +137,51 @@
 
     
 
-  // Agregar productos al carrito 
-
+// Agregar un producto al carrito
 function agregarAlCarrito(id, nombre, precio) {
-  console.log(id, nombre, precio)
+  // Obtener el carrito actual del LocalStorage (o inicializarlo vacío)
+  let carrito = JSON.parse(localStorage.getItem('carrito')) || {};
 
+  // Si el producto ya está en el carrito, incrementa la cantidad
+  if (carrito[id]) {
+      carrito[id].cantidad += 1;
+  } else {
+      // Si no, añade el producto al carrito
+      carrito[id] = { id, nombre, precio, cantidad: 1 };
+  }
 
-  // obtener productos del carrito de compras 
-  let carrito = JSON.parse(localStorage.getItem('carrito' || {} ))
-  console.log(carrito)
-  
-
-  // guarda el carrito carrito 
-  localStorage.setItem("carrito",
-      JSON.stringify({id, nombre, precio}),
-      
-      console.log(`${carrito} se agrego al carrito `)
-  )
-
-  
+  // Guardar el carrito actualizado en el LocalStorage
+  localStorage.setItem('carrito', JSON.stringify(carrito));
+  alert(`${nombre} agregado al carrito.`);
 }
 
-// mostrar los pructos del carrito 
-
+// Mostrar el contenido del carrito
 function verCarrito() {
-  // Obtener los pructos del carrito de compras 
-  const carrito = localStorage.getItem('carrito')  || {}
+  // Obtener el carrito del LocalStorage
+  const carrito = JSON.parse(localStorage.getItem('carrito')) || {};
 
-  const productosCarrito = document.getElementById("productContainer")
-  productosCarrito.innerHTML = `
-      <h3> Carrito de compras </h3>
-  `
+  const productoContainer = document.getElementById('productContainer');
+  productoContainer.innerHTML = '<h3>Carrito de Compras</h3>';
+
+  let total = 0;
+  for (const id in carrito) {
+      const producto = carrito[id];
+      total += producto.precio * producto.cantidad;
+      productoContainer.innerHTML += `
+          <p>${producto.nombre} - $${producto.precio} x ${producto.cantidad}, total: ${total}</p>
+      `;
+  }
+  
 }
 
-// Limpiar el carrito 
-
+// Vaciar el carrito
 function vaciarCarrito() {
-  localStorage.removeItem("carrito"),
-  alert("carrito vacio")
-  verCarrito()
+  // Eliminar el carrito del LocalStorage
+  localStorage.removeItem('carrito');
+  alert("Carrito vaciado.");
+  verCarrito();  // Refrescar el contenido
 }
+
 
 
 

@@ -23,10 +23,11 @@ app.use(express.json());
 //!  })
 
 const db = mysql.createConnection({
-    host: 'localhost',
+    host: 'junction.proxy.rlwy.net',
+    port: 16828,
     user: "root",
-    password: "Ass5331158",
-    database: "superMercado"
+    password: "AkCUNBXCXKFHahxwJnoDhgJtUydfneRf",
+    database: "railway"
 });
 
 db.connect(err => {
@@ -54,13 +55,14 @@ const articuloSchema = z.object(
 // rutas de las api 
 app.get('/articulo', (req, res) =>{
     
-    db.query(`select * from superMercado.articulos`, (err, result) =>{
+    db.query(`select * from articulos`, (err, result) =>{
 
         if (err) {
             return res.status(500).json({ error: err.message});
         }
         res.json(result)
      })
+     console.info(res )
 })
 
 app.get('/articulo/buscar', (req, res) =>{
@@ -68,7 +70,7 @@ app.get('/articulo/buscar', (req, res) =>{
     const { nombre, categoria } = req.query;
     
     let consulta = `select * 
-        from superMercado.articulos 
+        from articulos 
         where `
 
     const params = []
@@ -96,7 +98,7 @@ app.get('/articulo/buscar', (req, res) =>{
 })
 
 app.get('/categorias', (req, res) => {
-    db.query(`SELECT DISTINCT categoria AS nombre FROM superMercado.articulos`, (err, result) => {
+    db.query(`SELECT DISTINCT categoria AS nombre FROM articulos`, (err, result) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
