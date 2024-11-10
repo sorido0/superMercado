@@ -52,8 +52,10 @@ const articuloSchema = z.object(
     }
 )
 
+
+const ruta = "http://localhost:3000/articulo"
 // rutas de las api 
-app.get('/articulo', (req, res) =>{
+app.get(ruta, (req, res) =>{
     
     db.query(`select * from articulos`, (err, result) =>{
 
