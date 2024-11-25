@@ -99,7 +99,7 @@
         event.preventDefault()
 
         const busqueda = document.getElementById("btn").value
-        const respuesta =  await fetch(`/articulos/buscar?nombre=${busqueda}`)
+        const respuesta =  await fetch(`/articulo/buscar?nombre=${busqueda}`)
 
         const productos = await respuesta.json()
         clearPantalla()
